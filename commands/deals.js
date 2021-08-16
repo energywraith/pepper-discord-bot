@@ -1,6 +1,6 @@
-const DefaultEmbed = require('../utils/DefaultEmbed')
 const { SlashCommandBuilder, bold } = require('@discordjs/builders');
 const getPepperDeals = require('../modules/getPepperDeals');
+const processDealsToEmbeds = require('../utils/processDealsToEmbeds');
 const splitArrayIntoChunks = require('../utils/splitArrayIntoChunks');
 
 module.exports = {
@@ -17,26 +17,9 @@ module.exports = {
 
     try {
       const deals = await getPepperDeals(page);
-      const embeds = [];
 
-      deals.map(deal => {
-        let embed = new DefaultEmbed()
-          .setTitle(deal.title)
-          .setThumbnail(deal.image)
-          .addFields(
-            { name: 'Votes', value: deal.votes ? deal.votes : '0', inline: true },
-            { name: 'Date', value: deal.lifeTime ? deal.lifeTime : '0', inline: true },
-            { name: '\u200B', value: '\u200B', inline: true },
-          )
-          .addField('Pepper', `[Go to](${deal.articleLink})`, true);
-        
-        deal.dealLink && embed
-          .addField('Deal', `[Go to](${deal.dealLink})`, true)
-          .addField('\u200B', '\u200B', true);
-
-        embeds.push(embed);
-      })
-
+      const embeds = processDealsToEmbeds(deals);
+ 
       await splitArrayIntoChunks(embeds, 10).map(embedChunk =>
         interaction.channel
           ? interaction.channel.send({ embeds: embedChunk })

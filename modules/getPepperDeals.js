@@ -13,6 +13,7 @@ const getPepperDeals = async (page = 0) => {
     $ = cheerio.load(article);
 
     return {
+      id: $('.thread').attr('id'),
       title: $('.thread-title').text(),
       image: $('.thread-image').attr('src'),
       price: $('.thread-price').text(),
