@@ -1,9 +1,11 @@
 // To add the bot on a server
 // https://discord.com/api/oauth2/authorize?client_id=876400639855427595&permissions=519232&scope=bot%20applications.commands
+const { token } = require('./config.json');
 require('./modules/registerCommands')
+const sendMessageInEveryGuild = require('./modules/sendMessageInEveryGuild');
+const cron = require('node-cron');
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
-const { token } = require('./config.json');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 client.commands = new Collection();
@@ -18,6 +20,11 @@ for (const file of commandFiles) {
 }
 
 client.once('ready', () => {
+	// Every 30 mins, 12:30, 13:00, 13:30 etc.
+	cron.schedule('*/30 * * * *', () => {
+		sendMessageInEveryGuild(client, 'Placeholder', 'pepper-deals');
+	});
+
   console.log('Ready!');
 })
 

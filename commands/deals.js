@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const DefaultEmbed = require('../utils/DefaultEmbed')
 const { SlashCommandBuilder, bold } = require('@discordjs/builders');
 const getPepperDeals = require('../modules/getPepperDeals');
 const splitArrayIntoChunks = require('../utils/splitArrayIntoChunks');
@@ -20,7 +20,7 @@ module.exports = {
       const embeds = [];
 
       deals.map(deal => {
-        let embed = new MessageEmbed()
+        let embed = new DefaultEmbed()
           .setTitle(deal.title)
           .setThumbnail(deal.image)
           .addFields(
@@ -38,7 +38,9 @@ module.exports = {
       })
 
       await splitArrayIntoChunks(embeds, 10).map(embedChunk =>
-        interaction.channel.send({ embeds: embedChunk })
+        interaction.channel
+          ? interaction.channel.send({ embeds: embedChunk })
+          : interaction.user.send({ embeds: embedChunk })
       );
 
       await interaction.reply(bold(`Here\'s a list of all deals from page ${page}:`));
