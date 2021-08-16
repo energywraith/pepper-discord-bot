@@ -9,7 +9,7 @@ const processDealsToEmbeds = (deals) => {
       .addFields(
         { name: 'Votes', value: deal.votes ? deal.votes : '0', inline: true },
         { name: 'Date', value: deal.lifeTime ? deal.lifeTime : '0', inline: true },
-        { name: '\u200B', value: '\u200B', inline: true },
+        { name: deal.price ? 'Price' : '\u200B', value: deal.price ? deal.price : '\u200B', inline: true },
       )
     
     deal.dealLink && embed
