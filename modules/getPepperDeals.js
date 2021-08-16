@@ -19,7 +19,7 @@ const getPepperDeals = async (page = 0) => {
       articleLink: $('.thread-link').attr('href'),
       dealLink: $('.cept-dealBtn').attr('href'),
       votes: $('.vote-temp').text().replace(/(\r\n|\n|\r|\t)/gm, ""),
-      lifeTime: $('.metaRibbon .hide--toW3').text(),
+      lifeTime: $('.cept-meta-ribbon-hot .hide--toW3').text(),
     };
   })
 
