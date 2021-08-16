@@ -1,6 +1,6 @@
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const { token } = require('./config.json');
+const { token } = require('../config.json');
 const fs = require('fs');
 
 const commands = [];
@@ -11,7 +11,7 @@ const clientId = '876400639855427595';
 const guildId = '761284091026866196';
 
 for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
+	const command = require(`../commands/${file}`);
 	commands.push(command.data.toJSON());
 }
 
